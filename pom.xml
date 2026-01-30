@@ -1,8 +1,8 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>dev.fileformat</groupId>
+  <groupId>dev.openize</groupId>
   <artifactId>drako</artifactId>
-  <version>1.4.2</version>
+  <version>1.4.3</version>
   <name>drako</name>
   <description>FileFormat.Drako for Java allows you to encode and decode Google Draco files with Java, Kotlin, Scala.</description>
   <url>https://products.fileformat.dev/drako/java/</url>
