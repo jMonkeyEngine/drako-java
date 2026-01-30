@@ -1,28 +1,28 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>dev.openize</groupId>
+  <groupId>com.openize</groupId>
   <artifactId>drako</artifactId>
   <version>1.4.3</version>
   <name>drako</name>
-  <description>FileFormat.Drako for Java allows you to encode and decode Google Draco files with Java, Kotlin, Scala.</description>
-  <url>https://products.fileformat.dev/drako/java/</url>
+  <description>Openize.Drako for Java allows you to encode and decode Google Draco files with Java, Kotlin, Scala.</description>
+  <url>https://products.openize.com/drako/java/</url>
   <licenses>
     <license>
       <name>MIT License</name>
-      <url>https://raw.githubusercontent.com/fileformat-drako/FileFormat.Drako-for-Java/main/LICENSE</url>
+      <url>https://raw.githubusercontent.com/openize-drako/Openize.Drako-for-Java/main/LICENSE</url>
     </license>
   </licenses>
   <developers>
     <developer>
       <id>lexchou</id>
-      <name>FileFormat</name>
+      <name>Openize</name>
       <organization>Openize Pty Ltd.</organization>
-      <organizationUrl>https://www.fileformat.dev</organizationUrl>
+      <organizationUrl>https://www.openize.com</organizationUrl>
     </developer>
   </developers>
   <scm>
     <tag />
-    <url>https://github.com/fileformat-drako/FileFormat.Drako-for-Java</url>
+    <url>https://github.com/openize-drako/Openize.Drako-for-Java</url>
   </scm>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
