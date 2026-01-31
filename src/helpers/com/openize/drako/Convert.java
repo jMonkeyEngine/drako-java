@@ -1,10 +1,6 @@
 package com.openize.drako;
 
 
-import java.lang.reflect.Array;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -116,48 +112,6 @@ class Convert {
             op++;
         }
         return out;
-    }
-    /**
-     * Format date in ISO 8601 format
-     * @param date
-     * @return
-     */
-    public static String formatISO8601(Date date) {
-
-        TimeZone tz = TimeZone.getTimeZone("UTC");
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'");
-        df.setTimeZone(tz);
-        return df.format(date);
-    }
-    public static String formatISO8601(Calendar date) {
-        return formatISO8601(date.getTime());
-    }
-
-    public static Calendar parseISO8601(String str) {
-        long t = parseISO8601AsMilliseconds(str);
-        if(t == -1)
-            return null;
-        Calendar ret = Calendar.getInstance();
-        ret.setTimeInMillis(t);
-        return ret;
-    }
-    private static SimpleDateFormat[] iso8601Formats = {
-            new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ"),
-            new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'")
-    };
-    private static long parseISO8601AsMilliseconds(String str)
-    {
-        for(int i = 0; i < iso8601Formats.length; i++) {
-            synchronized (iso8601Formats[i]) {
-                try {
-                    Date date = iso8601Formats[i].parse(str);
-                    return date.getTime();
-                } catch (ParseException e) {
-
-                }
-            }
-        }
-        return -1;
     }
 
     public static void blockCopy(Object src, int srcOffset, Object dst, int dstOffset, int count) {
@@ -393,22 +347,7 @@ class Convert {
     public static Class<?> getUnderlyingType(Object value) {
         throw new RuntimeException("Not implemented");
     }
-    public static boolean parseDateTime(String input, String pattern, @Out Calendar[] ret)
-    {
-        try {
-
-            String newPattern = normalizeDateFormat(pattern);
-            SimpleDateFormat sdf = new SimpleDateFormat(newPattern);
-            Date d = sdf.parse(trim(input));
-            ret[0] = Calendar.getInstance();
-            ret[0].setTimeInMillis(d.getTime());
-            return true;
-        } catch (Exception e) {
-            ret[0] = null;
-            return false;
-
-        }
-    }
+    
 
     /**
      * Convert .net style date format into java's style
@@ -479,19 +418,31 @@ class Convert {
     }
     public static List<Character> asList(char[] array)
     {
-        return new ListUtils.NativeArrayList<Character>(array);
+        ArrayList<Character> ret = new ArrayList<>(array.length);
+        for(char c : array)
+            ret.add(c);
+        return ret;
     }
     public static List<Boolean> asList(boolean[] array)
     {
-        return new ListUtils.NativeArrayList<Boolean>(array);
+        ArrayList<Boolean> ret = new ArrayList<>(array.length);
+        for(boolean b : array)
+            ret.add(b);
+        return ret;
     }
     public static List<Byte> asList(byte[] array)
     {
-        return new ListUtils.NativeArrayList<Byte>(array);
+        ArrayList<Byte> ret = new ArrayList<>(array.length);
+        for(byte b : array)
+            ret.add(b);
+        return ret;
     }
     public static List<Short> asList(short[] array)
     {
-        return new ListUtils.NativeArrayList<Short>(array);
+        ArrayList<Short> ret = new ArrayList<>(array.length);
+        for(short s : array)
+            ret.add(s);
+        return ret;
     }
     public static List<Integer> asList(int[] array)
     {
@@ -499,84 +450,27 @@ class Convert {
     }
     public static List<Long> asList(long[] array)
     {
-        return new ListUtils.NativeArrayList<Long>(array);
+        ArrayList<Long> ret = new ArrayList<>(array.length);
+        for(long l : array)
+            ret.add(l);
+        return ret;
     }
     public static List<Float> asList(float[] array)
     {
-        return new ListUtils.NativeArrayList<Float>(array);
+        ArrayList<Float> ret = new ArrayList<>(array.length);
+        for(float f : array)
+            ret.add(f);
+        return ret;
     }
     public static List<Double> asList(double[] array)
     {
-        return new ListUtils.NativeArrayList<Double>(array);
-    }
-
-
-    /**
-     * Unbox the boxed array to primitive array
-     * e.g. Convert Object[] to  int[]
-     * Call unbox(array, int.class)
-     * @param array array of boxed type
-     * @return array of primitive type
-     */
-    public static Object unbox(Object[] array, Class<?> elementType)
-    {
-        if(array == null)
-            throw new IllegalArgumentException("array cannot be null");
-        if(elementType == null)
-            throw new IllegalArgumentException("elementType cannot be null");
-
-        Object ret = Array.newInstance(elementType, array.length);
-        if(array.length > 0) {
-            if(elementType == int.class) {
-                int[] ints = (int[]) ret;
-                for (int i = 0; i < array.length; i++) {
-                    ints[i] = ((Number) array[i]).intValue();
-                }
-            } else if(elementType == short.class) {
-                short[] vals = (short[]) ret;
-                for (int i = 0; i < array.length; i++) {
-                    vals[i] = ((Number) array[i]).shortValue();
-                }
-            } else if(elementType == byte.class) {
-                byte[] vals = (byte[]) ret;
-                for (int i = 0; i < array.length; i++) {
-                    vals[i] = ((Number) array[i]).byteValue();
-                }
-            } else if(elementType == long.class) {
-                long[] vals = (long[]) ret;
-                for (int i = 0; i < array.length; i++) {
-                    vals[i] = ((Number) array[i]).longValue();
-                }
-            } else if(elementType == double.class) {
-                double[] vals = (double[]) ret;
-                for (int i = 0; i < array.length; i++) {
-                    vals[i] = ((Number) array[i]).doubleValue();
-                }
-            } else if(elementType == float.class) {
-                float[] vals = (float[]) ret;
-                for (int i = 0; i < array.length; i++) {
-                    vals[i] = ((Number) array[i]).floatValue();
-                }
-            } else if(elementType == boolean.class) {
-                boolean[] vals = (boolean[]) ret;
-                for (int i = 0; i < array.length; i++) {
-                    vals[i] = (Boolean) array[i];
-                }
-            } else if(elementType == char.class) {
-                char[] vals = (char[]) ret;
-                for (int i = 0; i < array.length; i++) {
-                    vals[i] = (Character) array[i];
-                }
-            } else {
-                //generic version, slow but for all types
-                for (int i = 0; i < array.length; i++) {
-                    Array.set(ret, i, array[i]);
-                }
-            }
-        }
+        ArrayList<Double> ret = new ArrayList<>(array.length);
+        for(double d : array)
+            ret.add(d);
         return ret;
-
     }
+
+
     /**
      * Unbox the boxed array to primitive array
      * @param array array of boxed type

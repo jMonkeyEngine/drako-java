@@ -1,8 +1,6 @@
 package com.openize.drako;
 
 
-import java.lang.reflect.Array;
-
 /**
  * Created by lexchou on 8/22/2017.
  */
@@ -22,21 +20,7 @@ class MetaClass<T> {
         return null;
     }
 
-    /**
-     * Cast generic object array into typed array
-     * @param array
-     * @return
-     */
-    public T[] unshadow(Object[] array) {
-        if(array.length == 0)
-            return (T[])array;
-        T[] ret = (T[])Array.newInstance(array[0].getClass(), array.length);
-        for(int i = 0; i < array.length; i++)
-        {
-            ret[i] = (T)array[i];
-        }
-        return ret;
-    }
+  
     public boolean isAssignableFrom(Class<?> clazz) {
         Class<T> self = classOf();
         return self.isAssignableFrom(clazz);

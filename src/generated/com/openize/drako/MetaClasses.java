@@ -17,17 +17,6 @@ final class MetaClasses
             return ret;
         }
         @Override
-        public CornerTable.VertexEdgePair[] unshadow(Object[] array)
-        {
-            CornerTable.VertexEdgePair[] ret = new CornerTable.VertexEdgePair[array.length];
-            for (int i = 0; i < array.length; ++i)
-            {
-                ret[i] = Struct.byVal((CornerTable.VertexEdgePair)(array[i]));
-            }
-            
-            return ret;
-        }
-        @Override
         public Class<CornerTable.VertexEdgePair> classOf()
         {
             return CornerTable.VertexEdgePair.class;
@@ -55,18 +44,7 @@ final class MetaClasses
             }
             
             return ret;
-        }
-        @Override
-        public RAnsDecoder.ransSym[] unshadow(Object[] array)
-        {
-            RAnsDecoder.ransSym[] ret = new RAnsDecoder.ransSym[array.length];
-            for (int i = 0; i < array.length; ++i)
-            {
-                ret[i] = Struct.byVal((RAnsDecoder.ransSym)(array[i]));
-            }
-            
-            return ret;
-        }
+        } 
         @Override
         public Class<RAnsDecoder.ransSym> classOf()
         {
@@ -92,17 +70,6 @@ final class MetaClasses
             for (int i = 0; i < size; i++)
             {
                 ret[i] = new RAnsBitCodec.RansSym();
-            }
-            
-            return ret;
-        }
-        @Override
-        public RAnsBitCodec.RansSym[] unshadow(Object[] array)
-        {
-            RAnsBitCodec.RansSym[] ret = new RAnsBitCodec.RansSym[array.length];
-            for (int i = 0; i < array.length; ++i)
-            {
-                ret[i] = Struct.byVal((RAnsBitCodec.RansSym)(array[i]));
             }
             
             return ret;

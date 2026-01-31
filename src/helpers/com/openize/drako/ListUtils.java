@@ -1,7 +1,6 @@
 package com.openize.drako;
 
 
-import java.lang.reflect.Array;
 import java.util.*;
 
 @Internal
@@ -224,84 +223,5 @@ class ListUtils {
         }
     }
 
-    /**
-     * Created by lexchou on 9/1/2017.
-     * This class encapsulates an array into List interface
-     */
-    public static class NativeArrayList<T> extends AbstractList<T> implements List<T> {
-        private Object array;
-        private int size;
-
-        public NativeArrayList(Object data)
-        {
-            this.array = data;
-            size = Array.getLength(data);
-        }
-
-        @Override
-        public Iterator<T> iterator() {
-            return listIterator();
-        }
-
-        @Override
-        public boolean addAll(int index, Collection<? extends T> c) {
-            return false;
-        }
-
-        @Override
-        public T get(int index) {
-            return (T)Array.get(array, index);
-        }
-
-        @Override
-        public T set(int index, T element) {
-            throw new UnsupportedOperationException();
-        }
-
-        @Override
-        public void add(int index, T element) {
-            throw new UnsupportedOperationException();
-
-        }
-
-        @Override
-        public T remove(int index) {
-            throw new UnsupportedOperationException();
-        }
-
-        @Override
-        public int indexOf(Object o) {
-            for(int i = 0; i < size; i++)
-            {
-                if(get(i) == o)
-                    return i;
-            }
-            return -1;
-        }
-
-        @Override
-        public int lastIndexOf(Object o) {
-            for(int i = size - 1; i >= 0; i--)
-            {
-                if(get(i) == o)
-                    return i;
-            }
-            return -1;
-        }
-
-        @Override
-        public ListIterator<T> listIterator() {
-            return listIterator(0);
-        }
-
-        @Override
-        public ListIterator<T> listIterator(int index) {
-            return new GeneralArrayListIterator<T>(this, index);
-        }
-
-        @Override
-        public int size() {
-            return size;
-        }
-    }
+    
 }

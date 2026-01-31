@@ -2,12 +2,6 @@ package com.openize.drako;
 
 
 import java.io.*;
-import java.nio.ByteBuffer;
-import java.nio.CharBuffer;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.*;
 
 /**
@@ -352,39 +346,7 @@ class AsposeUtils {
                 return false;
         }
         return true;
-    }
-    /**
-     * Equivalent to Files.readString, replacement when CsPorter can't read the module files
-     * @param path
-     * @return
-     */
-    public static String readString(Path path) throws IOException {
-        if(path == null || !Files.exists(path))
-            throw new IllegalArgumentException("Invalid path");
-        byte[] bytes = Files.readAllBytes(path);
-        return StandardCharsets.UTF_8.decode(ByteBuffer.wrap(bytes)).toString();
-
-    }
-
-    /**
-     * Equivalent to System.Text.Encoding.GetChars
-     * @param charset
-     * @param bytes
-     * @param offset
-     * @param numBytes
-     * @param result
-     * @param resultOffset
-     * @return the number of characters decoded from bytes
-     */
-    public static int charsFromBytes(Charset charset, byte[] bytes, int offset, int numBytes, char[] result, int resultOffset) {
-        ByteBuffer input = ByteBuffer.wrap(bytes, offset, numBytes);
-        CharBuffer chars = charset.decode(input);
-
-        int numChars = Math.min(chars.limit(), result.length - resultOffset);
-        chars.get(result, resultOffset, numChars);
-        return numChars;
-    }
-
+    }  
     /**
      * Parse command line into array
      * @param commandLine
