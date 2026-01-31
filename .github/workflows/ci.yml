@@ -1,0 +1,76 @@
+name: CI
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+    branches: ["**"]
+  release:
+    types: [published]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build (compile + test)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+          cache: gradle
+
+      - name: Build
+        run: ./gradlew --no-daemon clean build
+
+  publish_github_packages:
+    name: Publish to GitHub Packages (on Release)
+    if: github.event_name == 'release'
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "8"
+          cache: gradle
+
+      - name: Resolve release version (from release name)
+        id: ver
+        shell: bash
+        run: |
+          set -euo pipefail
+          VERSION="${{ github.event.release.name }}"
+          if [ -z "${VERSION}" ]; then
+            VERSION="${{ github.event.release.tag_name }}"
+          fi
+          # Optional: drop a leading "v" (common tag convention)
+          VERSION="${VERSION#v}"
+
+          echo "releaseVersion=${VERSION}" >> "$GITHUB_OUTPUT"
+          echo "Using releaseVersion=${VERSION}"
+
+      - name: Publish to GitHub Packages
+        env:
+          GITHUB_ACTOR: ${{ github.actor }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          ./gradlew --no-daemon \
+            -PreleaseVersion='${{ steps.ver.outputs.releaseVersion }}' \
+            clean build \
+            publishMavenJavaPublicationToGitHubPackagesRepository

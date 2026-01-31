@@ -1,0 +1,169 @@
+plugins {
+    id 'java-library'
+    id 'maven-publish'
+    id 'signing'
+    id 'io.github.gradle-nexus.publish-plugin' version '2.0.0'
+
+}
+
+group = 'org.jmonkeyengine'
+description = 'Drako for Java allows you to encode and decode Google Draco files with Java.'
+
+def defaultVersion = '1.4.3-jme' 
+def releaseVersion = (findProperty('releaseVersion') ?: System.getenv('RELEASE_VERSION'))?.toString()
+
+version = releaseVersion ?: defaultVersion
+
+description = 'Drako for Java allows you to encode and decode Google Draco files with Java.'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'junit:junit:4.13.1'
+    testImplementation 'org.hamcrest:hamcrest-core:1.3'
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(8)
+    }
+    withSourcesJar()
+    withJavadocJar()
+}
+ sourceSets {
+    main {
+        java {
+            srcDirs = [
+                'src/compression',
+                'src/decoder',
+                'src/encoder',
+                'src/draco',
+                'src/generated',
+                'src/helpers',
+                'src/main',
+                'src/utils'
+            ]
+        }
+       
+    }
+    test {
+        java {
+            srcDirs = [ 'src/test']
+        }
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+    options.fork = true
+    options.compilerArgs += ['-Xmaxerrs', '100000']
+}
+
+tasks.withType(Javadoc).configureEach {
+    options.addStringOption('Xdoclint:none', '-quiet')
+}
+
+tasks.test {
+    useJUnit()
+    workingDir = projectDir
+}
+
+tasks.jar {
+    manifest {
+        attributes('Class-Path': '.')
+    }
+    archiveBaseName.set('drako')
+    archiveVersion.set('')
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+
+            pom {
+                name = 'drako'
+                description = project.description
+                url = 'https://github.com/jMonkeyEngine/openize-drako-java'
+
+                licenses {
+                    license {
+                        name = 'MIT License'
+                        url = 'https://raw.githubusercontent.com/jMonkeyEngine/openize-drako-java/main/LICENSE'
+                    }
+                }
+
+                developers {
+                    developer {
+                        id = 'lexchou'
+                        name = 'Openize'
+                        organization = 'Openize Pty Ltd.'
+                        organizationUrl = 'https://www.openize.com'
+                    }
+
+                }
+
+                scm {
+                    url = 'https://github.com/jMonkeyEngine/openize-drako-java'
+                }
+            }
+        }
+
+    }
+    repositories {
+        mavenLocal()
+
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/jMonkeyEngine/openize-drako-java")
+
+            credentials {
+                username = (System.getenv("GITHUB_ACTOR") ?: findProperty("gpr.user"))?.toString()
+                password = (System.getenv("GITHUB_TOKEN") ?: findProperty("gpr.key"))?.toString()
+            }
+        }
+    }
+}
+
+signing {
+    // Only enable signing when keys are provided (keeps local builds working).
+    def signingKey = findProperty('signingKey')
+    def signingPassword = findProperty('signingPassword')
+
+    if (signingKey != null) {
+        useInMemoryPgpKeys(signingKey.toString(), signingPassword?.toString())
+        sign publishing.publications
+    }
+}
+
+nexusPublishing {
+    repositories {
+        sonatype {
+            nexusUrl = uri("https://s01.oss.sonatype.org/service/local/")
+            snapshotRepositoryUrl = uri("https://s01.oss.sonatype.org/content/repositories/snapshots/")
+            username = (System.getenv("OSSRH_USERNAME") ?: findProperty("ossrhUsername"))?.toString()
+            password = (System.getenv("OSSRH_PASSWORD") ?: findProperty("ossrhPassword"))?.toString()
+        }
+    }
+}
+
+import org.gradle.api.publish.maven.tasks.AbstractPublishToMaven
+import org.gradle.api.publish.maven.tasks.PublishToMavenLocal
+import org.gradle.api.publish.maven.tasks.PublishToMavenRepository
+
+tasks.withType(AbstractPublishToMaven).configureEach { t ->
+    doFirst {
+        def p = t.publication
+        def coords = "${p.groupId}:${p.artifactId}:${p.version}"
+
+        if (t instanceof PublishToMavenRepository) {
+            println "Publishing ${coords} -> ${t.repository.url} [${t.repository.name}]"
+        } else if (t instanceof PublishToMavenLocal) {
+            println "Publishing ${coords} -> mavenLocal()"
+        } else {
+            println "Publishing ${coords}"
+        }
+    }
+}
