@@ -5,6 +5,8 @@ abstract class ICornerTable
     
     public abstract int getNumVertices();
     
+    public abstract int getNumCorners();
+    
     public static int localIndex(int corner)
     {
         return corner % 3;

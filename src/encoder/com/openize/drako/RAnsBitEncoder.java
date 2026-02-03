@@ -44,7 +44,7 @@ class RAnsBitEncoder extends RAnsBitCodec implements IBitEncoder
             this.state = src.state;
         }
         
-        static final long serialVersionUID = -1293038318L;
+        static final long serialVersionUID = 2045757L;
         @Override
         public int hashCode()
         {

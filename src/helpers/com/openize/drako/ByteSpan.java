@@ -47,6 +47,9 @@ class ByteSpan extends Span {
     public ShortSpan asShortSpan() {
         return ShortSpan.wrap(array, offset, length);
     }
+    public BoolSpan asBoolSpan() {
+        return BoolSpan.wrap(array, offset, length);
+    }
     public IntSpan asIntSpan() {
         return IntSpan.wrap(array, offset, length);
     }

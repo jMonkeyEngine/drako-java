@@ -42,7 +42,7 @@ class RAnsDecoder
             this.cumProb = src.cumProb;
         }
         
-        static final long serialVersionUID = -218709856L;
+        static final long serialVersionUID = 108280464L;
         @Override
         public int hashCode()
         {
@@ -99,7 +99,7 @@ class RAnsDecoder
             this.cumProb = src.cumProb;
         }
         
-        static final long serialVersionUID = -1613612033L;
+        static final long serialVersionUID = 112671L;
         @Override
         public int hashCode()
         {

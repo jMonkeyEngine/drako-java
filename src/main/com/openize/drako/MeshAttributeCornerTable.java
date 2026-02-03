@@ -280,6 +280,11 @@ class MeshAttributeCornerTable extends ICornerTable
         return cornerTable.getNumFaces();
     }
     
+    public int getNumCorners()
+    {
+        return cornerTable.getNumCorners();
+    }
+    
     @Override
     public int vertex(int corner)
     {

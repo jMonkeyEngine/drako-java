@@ -92,7 +92,7 @@ public class DracoPointCloud
             this.p = src.p;
         }
         
-        static final long serialVersionUID = -580735552L;
+        static final long serialVersionUID = 82544948L;
         @Override
         public int hashCode()
         {

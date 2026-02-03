@@ -39,7 +39,7 @@ final class HoleEventData implements Struct<HoleEventData>, Serializable
         this.symbolId = src.symbolId;
     }
     
-    static final long serialVersionUID = 775306507L;
+    static final long serialVersionUID = -2127840847L;
     @Override
     public int hashCode()
     {
