@@ -145,7 +145,7 @@ abstract class PredictionScheme
     public static PredictionScheme createMeshPredictionScheme(MeshDecoder source, int method, int attId, PredictionSchemeTransform transform)
     {
         PointAttribute att = source.getPointCloud().attribute(attId);
-        if (method == PredictionSchemeMethod.PARALLELOGRAM || (method == PredictionSchemeMethod.MULTI_PARALLELOGRAM) || (method == PredictionSchemeMethod.TEX_COORDS_DEPRECATED) || (method == PredictionSchemeMethod.TEX_COORDS_PORTABLE) || (method == PredictionSchemeMethod.GEOMETRIC_NORMAL))
+        if (method == PredictionSchemeMethod.PARALLELOGRAM || (method == PredictionSchemeMethod.MULTI_PARALLELOGRAM) || (method == PredictionSchemeMethod.CONSTRAINED_MULTI_PARALLELOGRAM) || (method == PredictionSchemeMethod.TEX_COORDS_DEPRECATED) || (method == PredictionSchemeMethod.TEX_COORDS_PORTABLE) || (method == PredictionSchemeMethod.GEOMETRIC_NORMAL))
         {
             CornerTable ct = source.getCornerTable();
             MeshAttributeIndicesEncodingData encodingData = source.getAttributeEncodingData(attId);
@@ -174,13 +174,24 @@ abstract class PredictionScheme
     
     static PredictionScheme createMeshPredictionSchemeInternal(int method, PointAttribute attribute, PredictionSchemeTransform transform, MeshPredictionSchemeData meshData)
     {
-        if (method == PredictionSchemeMethod.PARALLELOGRAM)
-            return new MeshPredictionSchemeParallelogram(attribute, transform, meshData);else if (method == PredictionSchemeMethod.MULTI_PARALLELOGRAM)
-            return new MeshPredictionSchemeMultiParallelogram(attribute, transform, meshData);else if (method == PredictionSchemeMethod.TEX_COORDS_DEPRECATED)
-            return new MeshPredictionSchemeTexCoords(attribute, transform, meshData);else if (method == PredictionSchemeMethod.TEX_COORDS_PORTABLE)
-            return new MeshPredictionSchemeTexCoordsPortableDecoder(attribute, transform, meshData);else if (method == PredictionSchemeMethod.GEOMETRIC_NORMAL)
-            return new MeshPredictionSchemeGeometricNormal(attribute, transform, meshData);
-        return null;
+        switch(method)
+        {
+            case PredictionSchemeMethod.PARALLELOGRAM:
+                return new MeshPredictionSchemeParallelogram(attribute, transform, meshData);
+            case PredictionSchemeMethod.MULTI_PARALLELOGRAM:
+                return new MeshPredictionSchemeMultiParallelogram(attribute, transform, meshData);
+            case PredictionSchemeMethod.CONSTRAINED_MULTI_PARALLELOGRAM:
+                return new MeshPredictionSchemeConstrainedMultiParallelogram(attribute, transform, meshData);
+            case PredictionSchemeMethod.TEX_COORDS_DEPRECATED:
+                return new MeshPredictionSchemeTexCoords(attribute, transform, meshData);
+            case PredictionSchemeMethod.TEX_COORDS_PORTABLE:
+                return new MeshPredictionSchemeTexCoordsPortableDecoder(attribute, transform, meshData);
+            case PredictionSchemeMethod.GEOMETRIC_NORMAL:
+                return new MeshPredictionSchemeGeometricNormal(attribute, transform, meshData);
+            default:
+                return null;
+        }
+        
     }
     
 }

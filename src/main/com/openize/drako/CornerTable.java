@@ -68,7 +68,7 @@ class CornerTable extends ICornerTable
             this.edgeCorner = src.edgeCorner;
         }
         
-        static final long serialVersionUID = 173171982L;
+        static final long serialVersionUID = 2016287489L;
         @Override
         public int hashCode()
         {

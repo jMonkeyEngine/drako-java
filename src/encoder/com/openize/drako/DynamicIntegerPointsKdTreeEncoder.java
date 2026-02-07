@@ -52,7 +52,7 @@ class DynamicIntegerPointsKdTreeEncoder
             this.stack_pos = src.stack_pos;
         }
         
-        static final long serialVersionUID = -1397120679L;
+        static final long serialVersionUID = 57286004L;
         @Override
         public int hashCode()
         {

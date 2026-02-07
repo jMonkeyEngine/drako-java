@@ -86,7 +86,7 @@ public class PointAttribute extends GeometryAttribute
             this.hashCode = src.hashCode;
         }
         
-        static final long serialVersionUID = 762758046L;
+        static final long serialVersionUID = 2658708L;
         @Override
         public int hashCode()
         {

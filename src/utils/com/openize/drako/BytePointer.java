@@ -148,7 +148,7 @@ final class BytePointer implements Struct<BytePointer>, Serializable
         this.offset = src.offset;
     }
     
-    static final long serialVersionUID = 1673819297L;
+    static final long serialVersionUID = 64671784L;
     @Override
     public int hashCode()
     {

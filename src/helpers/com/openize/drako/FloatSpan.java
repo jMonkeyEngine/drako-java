@@ -118,4 +118,16 @@ abstract class FloatSpan extends Span {
         }
     }
 
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("[");
+        for(int i = 0; i < Math.min(10, length); i++) {
+            if(i > 0)
+                sb.append(",");
+            sb.append(get(i));
+        }
+        sb.append("]");
+        return sb.toString();
+    }
 }
