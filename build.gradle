@@ -86,12 +86,12 @@ publishing {
             pom {
                 name = 'drako'
                 description = project.description
-                url = 'https://github.com/jMonkeyEngine/openize-drako-java'
+                url = 'https://github.com/jMonkeyEngine/drako-java'
 
                 licenses {
                     license {
                         name = 'MIT License'
-                        url = 'https://raw.githubusercontent.com/jMonkeyEngine/openize-drako-java/main/LICENSE'
+                        url = 'https://raw.githubusercontent.com/jMonkeyEngine/drako-java/main/LICENSE'
                     }
                 }
 
@@ -106,7 +106,7 @@ publishing {
                 }
 
                 scm {
-                    url = 'https://github.com/jMonkeyEngine/openize-drako-java'
+                    url = 'https://github.com/jMonkeyEngine/drako-java'
                 }
             }
         }
@@ -117,7 +117,7 @@ publishing {
 
         maven {
             name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/jMonkeyEngine/openize-drako-java")
+            url = uri("https://maven.pkg.github.com/jMonkeyEngine/drako-java")
 
             credentials {
                 username = (System.getenv("GITHUB_ACTOR") ?: findProperty("gpr.user"))?.toString()
