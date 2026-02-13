@@ -102,7 +102,10 @@ publishing {
                         organization = 'Openize Pty Ltd.'
                         organizationUrl = 'https://www.openize.com'
                     }
-
+                    developer {
+                        id = 'jMonkeyEngine'
+                        name = 'jMonkeyEngine Team'
+                    }
                 }
 
                 scm {
@@ -128,13 +131,16 @@ publishing {
 }
 
 signing {
-    // Only enable signing when keys are provided (keeps local builds working).
-    def signingKey = findProperty('signingKey')
-    def signingPassword = findProperty('signingPassword')
+    def keyRaw = System.getenv('SIGNING_KEY')
+    def pass   = System.getenv('SIGNING_PASSWORD') ?: findProperty('signingPassword')
 
-    if (signingKey != null) {
-        useInMemoryPgpKeys(signingKey.toString(), signingPassword?.toString())
-        sign publishing.publications
+    def signingKey =
+            keyRaw ? keyRaw :
+            findProperty('signingKey')
+
+    if (signingKey) {
+        useInMemoryPgpKeys(signingKey.toString(), pass?.toString())
+        sign(publishing.publications)
     }
 }
 
